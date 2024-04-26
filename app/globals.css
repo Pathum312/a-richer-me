@@ -40,6 +40,7 @@
 	padding: 0;
 }
 
+/* Apply this font family to everything, except .title class */
 *:not(.title) {
 	font-family: var(--ff-default);
 }
