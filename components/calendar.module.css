@@ -1,0 +1,10 @@
+.calendar {
+	border: none;
+	display: flex;
+	padding: 0.5rem;
+	text-align: center;
+	border-radius: 0.25rem;
+	justify-content: center;
+	color: var(--clr-text-default);
+	font-size: var(--fs-heading--2);
+}

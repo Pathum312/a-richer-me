@@ -1,3 +1,5 @@
+import styles from './page.module.css';
+
 export const metadata = {
 	title: 'ARM | Dashboard',
 	description: 'The Dashboard for ARM.',
@@ -5,10 +7,10 @@ export const metadata = {
 
 const Home = () => {
 	return (
-		<>
-			<h1>Dev Page</h1>
-			<p>The dashboard, shows the stats and graphs for the user</p>
-		</>
+		<div className={styles.container}>
+			<h1 className={styles.title}>Dashboard Page</h1>
+			<p className={styles.description}>The dashboard, shows the stats and graphs for the user</p>
+		</div>
 	);
 };
 
