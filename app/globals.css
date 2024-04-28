@@ -32,12 +32,23 @@
 	/* Font Family */
 	--ff-default: 'Jockey One', Arial, sans-serif;
 	--ff-title: 'Jolly Lodger', Arial, sans-serif;
+
+	/* Font Size - Headings */
+	--fs-heading--2: clamp(0.8681rem, 0.8361rem + 0.1597vi, 0.96rem);
+	--fs-heading--1: clamp(1.0417rem, 0.9867rem + 0.2751vi, 1.2rem);
+	--fs-heading-0: clamp(1.25rem, 1.1631rem + 0.4343vi, 1.5rem);
+	--fs-heading-1: clamp(1.5rem, 1.3697rem + 0.6515vi, 1.875rem);
+	--fs-heading-2: clamp(1.8rem, 1.6111rem + 0.9446vi, 2.3438rem);
+	--fs-heading-3: clamp(2.16rem, 1.8926rem + 1.3371vi, 2.9297rem);
+	--fs-heading-4: clamp(2.592rem, 2.2202rem + 1.859vi, 3.6621rem);
+	--fs-heading-5: clamp(3.1104rem, 2.6006rem + 2.5489vi, 4.5776rem);
 }
 
 /* Make a padding and margin of everything by default 0 */
 * {
 	margin: 0;
 	padding: 0;
+	color: #000;
 }
 
 /* Apply this font family to everything, except .title class */
