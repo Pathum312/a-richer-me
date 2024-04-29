@@ -31,6 +31,10 @@
 	align-items: center;
 }
 
+.tbody {
+	margin-top: 1rem;
+}
+
 .row {
 	display: flex;
 	justify-content: space-between;
@@ -39,10 +43,64 @@
 .column {
 	width: 100%;
 	font-size: var(--fs-heading--1);
-	color: var(--clr-text-column-name);
 }
 
 .column_name {
 	font-weight: 500;
+	text-align: left;
+	padding-left: 0.5rem;
+	color: var(--clr-text-column-name);
 	border-top: 2px solid var(--clr-text-default);
+}
+
+.column_data {
+	display: flex;
+	text-align: left;
+	align-items: center;
+	padding-left: 0.5rem;
+	margin-bottom: 0.5rem;
+	justify-content: space-between;
+	color: var(--clr-text-default);
+	border-bottom: 2px solid var(--clr-text-default);
+}
+
+/* Category colors */
+.pink {
+	color: var(--clr-pink-100);
+	background-color: var(--clr-pink-50);
+}
+
+.green {
+	color: var(--clr-green-100);
+	background-color: var(--clr-green-50);
+}
+
+.red {
+	color: var(--clr-red-50);
+	background-color: var(--clr-red-100);
+}
+
+.blue {
+	color: var(--clr-blue-100);
+	background-color: var(--clr-blue-50);
+}
+
+.light_pink {
+	color: var(--clr-light-pink-100);
+	background-color: var(--clr-light-pink-50);
+}
+
+.light_blue {
+	color: var(--clr-light-blue-100);
+	background-color: var(--clr-light-blue-50);
+}
+
+.sea_green {
+	color: var(--clr-sea-green-50);
+	background-color: var(--clr-sea-green-100);
+}
+
+.orange {
+	color: var(--clr-orange-100);
+	background-color: var(--clr-orange-50);
 }
