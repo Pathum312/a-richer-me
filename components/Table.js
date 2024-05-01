@@ -28,17 +28,21 @@ const Table = () => {
 	]);
 
 	// Filter date
-	const [selectedDate, setSelectedDate] = useState(new Date());
+	const [selectedMonth, setSelectedMonth] = useState(new Date());
 
 	// This month is used while getting the finance data.
-	const handleDateChange = date => {
-		setSelectedDate(date);
+	const handleMonthChange = date => {
+		setSelectedMonth(date);
 	};
 
 	return (
 		<>
 			<div className={styles.utils}>
-				<Calendar selectedDate={selectedDate} handleDateChange={handleDateChange} />
+				<Calendar
+					selectedDate={selectedMonth}
+					handleDateChange={handleMonthChange}
+					type={'MONTH'}
+				/>
 			</div>
 			<table className={styles.table}>
 				<div className={styles.title_container}>
@@ -57,7 +61,13 @@ const Table = () => {
 					{data.map((row, index) => (
 						<tr className={styles.row}>
 							<td key={index} className={`${styles.column} ${styles.td}`}>
-								{row.date}
+								{row.date && (
+									<Calendar
+										selectedDate={row.date}
+										handleDateChange={handleMonthChange}
+										type={'DAY'}
+									/>
+								)}
 							</td>
 						</tr>
 					))}

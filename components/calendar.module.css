@@ -1,10 +1,18 @@
-.calendar {
+.month {
 	border: none;
 	display: flex;
 	padding: 0.5rem;
 	text-align: center;
 	border-radius: 0.25rem;
 	justify-content: center;
+	color: var(--clr-text-default);
+	font-size: var(--fs-heading--2);
+	background-color: var(--clr-white-50);
+}
+
+.day {
+	width: 100%;
+	border: none;
 	color: var(--clr-text-default);
 	font-size: var(--fs-heading--2);
 	background-color: var(--clr-white-50);
