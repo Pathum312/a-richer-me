@@ -8,9 +8,7 @@ const Calendar = ({ selectedDate, handleDateChange }) => {
 			selected={selectedDate}
 			onChange={handleDateChange}
 			dateFormat="MMMM YYYY"
-			placeholderText="Select a date"
-			startDate={new Date(new Date().getFullYear(), new Date().getMonth(), 1)}
-			endDate={new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0)}
+			placeholderText="Select a month"
 			monthsShown={1}
 			showMonthYearPicker
 			className={styles.calendar}
