@@ -5,7 +5,7 @@
 	justify-content: flex-end;
 }
 
-.table {
+.container {
 	width: 50%;
 	padding: 1rem;
 	display: flex;
@@ -13,6 +13,10 @@
 	flex-direction: column;
 	border-radius: 0.25rem;
 	background-color: var(--clr-white-50);
+}
+
+.table {
+	width: 100%;
 }
 
 .title_container {
@@ -58,43 +62,62 @@
 	border-bottom: 2px solid var(--clr-text-default);
 }
 
+.input {
+	width: 100%;
+	border: none;
+	color: var(--clr-text-default);
+	font-size: var(--fs-heading--1);
+	background-color: var(--clr-white-50);
+}
+
 /* Category colors */
-.pink {
+.travel {
 	color: var(--clr-pink-100);
 	background-color: var(--clr-pink-50);
 }
 
-.green {
+.food {
 	color: var(--clr-green-100);
 	background-color: var(--clr-green-50);
 }
 
-.red {
+.personal {
 	color: var(--clr-red-50);
 	background-color: var(--clr-red-100);
 }
 
-.blue {
+.health {
 	color: var(--clr-blue-100);
 	background-color: var(--clr-blue-50);
 }
 
-.light_pink {
+.home {
 	color: var(--clr-light-pink-100);
 	background-color: var(--clr-light-pink-50);
 }
 
-.light_blue {
+.pets {
 	color: var(--clr-light-blue-100);
 	background-color: var(--clr-light-blue-50);
 }
 
-.sea_green {
+.gifts {
 	color: var(--clr-sea-green-50);
 	background-color: var(--clr-sea-green-100);
 }
 
-.orange {
+.utilities {
 	color: var(--clr-orange-100);
 	background-color: var(--clr-orange-50);
+}
+
+.travel,
+.food,
+.personal,
+.health,
+.home,
+.pets,
+.gifts,
+.utilities {
+	padding: 0 0.5rem;
 }
