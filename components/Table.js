@@ -99,7 +99,11 @@ const Table = () => {
 													>
 														<option value="">Select a category</option>
 														{Object.values(categories).map((category, index) => (
-															<option key={index} value={category}>
+															<option
+																key={index}
+																value={category}
+																className={value ? styles[categories[value].toLowerCase()] : ''}
+															>
 																{category}
 															</option>
 														))}
