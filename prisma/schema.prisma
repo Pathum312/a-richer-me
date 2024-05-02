@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Expense {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  date        DateTime
+  amount      Int
+  description String
+  category    Categories @default(Travel)
+}
+
+enum Categories {
+  Travel
+  Food
+  Personal
+  Health
+  Home
+  Pets
+  Gifts
+  Utilities
+}
