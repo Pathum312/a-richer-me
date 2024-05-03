@@ -13,7 +13,7 @@ const useFetch = (url, method, payload) => {
 					method,
 					signal: abortController.signal,
 				};
-				if (method !== 'GET') {
+				if (method !== 'GET' || method !== 'DELETE') {
 					options['headers'] = { 'Content-Type': 'application/json' };
 					options['body'] = JSON.stringify(body);
 				}
