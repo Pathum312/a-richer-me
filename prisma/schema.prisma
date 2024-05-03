@@ -8,11 +8,11 @@ datasource db {
 }
 
 model Expense {
-  id          String     @id @default(auto()) @map("_id") @db.ObjectId
-  date        DateTime
-  amount      Int
-  description String
-  category    Categories @default(Travel)
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  date        DateTime?
+  amount      Int?
+  description String?
+  category    Categories? @default(Travel)
 }
 
 enum Categories {

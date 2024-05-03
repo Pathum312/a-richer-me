@@ -3,9 +3,12 @@
 import { useState } from 'react';
 import Calendar from './Calendar';
 import styles from './table.module.css';
+import useFetch from '@/middleware/useFetch';
 
 const Table = () => {
 	const columns = ['Date', 'Amount', 'Description', 'Category'];
+
+	// This is for the categories dropdown menu in the table
 	const categories = {
 		Travel: 'Travel',
 		Food: 'Food',
@@ -17,14 +20,8 @@ const Table = () => {
 		Utilities: 'Utilities',
 	};
 
-	// Temp data
-	const [data, setData] = useState([
-		{ id: 1, date: '01/01/2024', amount: '$79.99', description: 'Uber', category: 'Travel' },
-		{ id: 2, date: '01/01/2024', amount: '$79.99', description: 'Uber', category: 'Food' },
-		{ id: 3, date: '01/01/2024', amount: '$79.99', description: 'Uber', category: 'Personal' },
-		{ id: 4, date: '01/01/2024', amount: '$79.99', description: 'Uber', category: 'Home' },
-		{ id: '', date: '', amount: '', description: '', category: '' },
-	]);
+	// Expenses data from db
+	let { data, error, isPending } = useFetch('http://localhost:3000/api/expenses', 'GET');
 
 	// Filter date
 	const [selectedMonth, setSelectedMonth] = useState(new Date());
@@ -35,15 +32,29 @@ const Table = () => {
 	};
 
 	// Handles all data changes in the table
-	const handleDataChange = (expense, event, index) => {
+	const handleDataChange = async (expense, event, index) => {
+		const abortController = new AbortController();
+		const options = {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			signal: abortController.signal,
+		};
 		const payload = {
 			[columns[index - 1].toLowerCase()]: index === 1 ? event : event.target.value,
 		};
 
 		// If the row has an id, we will be updating the record.
 		// If not, we will be adding a new record.
-		if (expense.id) payload['id'] = expense.id;
-		console.log(payload);
+		if (expense.id) {
+			payload['id'] = expense.id;
+			payload['type'] = 'UPDATE';
+			options['body'] = JSON.stringify(payload);
+			await fetch('http://localhost:3000/api/expenses', options);
+		} else {
+			payload['type'] = 'ADD';
+			options['body'] = JSON.stringify(payload);
+			await fetch('http://localhost:3000/api/expenses', options);
+		}
 	};
 
 	return (

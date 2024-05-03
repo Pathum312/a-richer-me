@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 
 const useFetch = (url, method, payload) => {
-	const [data, setData] = useState(null);
+	const [data, setData] = useState([
+		{ id: '', date: '', amount: '', description: '', category: '' },
+	]);
 	const [error, setError] = useState(null);
-	const [isPending, setIsPending] = useState(null);
+	const [isPending, setIsPending] = useState(true);
 
-	useEffect(async () => {
+	useEffect(() => {
 		const abortController = new AbortController();
 		const fetchData = async () => {
 			try {
@@ -13,7 +15,7 @@ const useFetch = (url, method, payload) => {
 					method,
 					signal: abortController.signal,
 				};
-				if (method !== 'GET' || method !== 'DELETE') {
+				if (method !== 'GET' && method !== 'DELETE') {
 					options['headers'] = { 'Content-Type': 'application/json' };
 					options['body'] = JSON.stringify(body);
 				}
@@ -21,8 +23,13 @@ const useFetch = (url, method, payload) => {
 				// If there is no 200 status throw an error
 				if (!res.ok) throw new Error('Failed to fetch resource');
 
-				const data = await res.json();
-				setData(data);
+				const temp = await res.json();
+				const expenses = temp.data;
+				const response = [
+					...expenses,
+					{ id: '', date: '', amount: '', description: '', category: '' },
+				];
+				setData(response);
 				setIsPending(false);
 				setError(null);
 			} catch (error) {
@@ -32,9 +39,12 @@ const useFetch = (url, method, payload) => {
 		};
 
 		// Send the request and receive the data
-		await fetchData();
+		const timeoutId = setTimeout(fetchData, 1000);
 
-		return abortController.abort();
+		return () => {
+			clearTimeout(timeoutId);
+			abortController.abort();
+		};
 	}, [url, method, payload]);
 
 	return { data, error, isPending };
