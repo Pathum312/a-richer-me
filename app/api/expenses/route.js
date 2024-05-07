@@ -14,6 +14,7 @@ export const GET = async req => {
 	);
 };
 
+// Test
 export const POST = async req => {
 	try {
 		const { id, date, amount, description, category, type } = req.body;
