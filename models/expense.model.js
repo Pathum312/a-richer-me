@@ -14,6 +14,8 @@ class ExpenseModel {
 	};
 
 	update = async ({ id, date, amount, description, category, type }) => {
+		// Amount sent in the req is string have to convert to int
+		amount = parseInt(amount);
 		// Common data for both adding and updating the records
 		let data = { date, amount, description, category };
 		switch (type) {
@@ -21,7 +23,7 @@ class ExpenseModel {
 			case 'UPDATE':
 				if (date || amount || description || category) {
 					return await this.prisma.expense.update({ where: { id }, data });
-					// If the payload doesn't have any of the common data, delete record
+					// If the payload doesn't have any of the common data, then delete the record
 				} else return await this.destroy({ id });
 			// If add, create a new record
 			case 'ADD':

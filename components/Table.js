@@ -49,10 +49,12 @@ const Table = () => {
 			payload['id'] = expense.id;
 			payload['type'] = 'UPDATE';
 			options['body'] = JSON.stringify(payload);
+			console.log({ payload, options });
 			await fetch('http://localhost:3000/api/expenses', options);
 		} else {
 			payload['type'] = 'ADD';
 			options['body'] = JSON.stringify(payload);
+			console.log({ payload, options });
 			await fetch('http://localhost:3000/api/expenses', options);
 		}
 	};

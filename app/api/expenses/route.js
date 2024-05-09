@@ -17,19 +17,23 @@ export const GET = async req => {
 // Test
 export const POST = async req => {
 	try {
-		const { id, date, amount, description, category, type } = req.body;
-		// Add, Update or Delete a record.
-		const res = await expenseService.update({
-			id,
-			date,
-			amount,
-			description,
-			category,
-			type,
-		});
-		// Returm a confirmation response
-		return NextResponse.json({ message: res }, { status: 200 });
+		const { id, date, amount, description, category, type } = await req.json();
+		try {
+			// Add, Update or Delete a record.
+			const res = await expenseService.update({
+				id,
+				date,
+				amount,
+				description,
+				category,
+				type,
+			});
+			// Returm a confirmation response
+			return NextResponse.json({ message: 'Expense added.' }, { status: 200 });
+		} catch (error) {
+			return NextResponse.json({ error: error.message }, { status: 500 });
+		}
 	} catch (error) {
-		return NextResponse.json({ message: error.message }, { status: 500 });
+		return NextResponse.json({ error: error.message }, { status: 500 });
 	}
 };
