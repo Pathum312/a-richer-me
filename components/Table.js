@@ -62,11 +62,7 @@ const Table = () => {
 	return (
 		<>
 			<div className={styles.utils}>
-				<Calendar
-					selectedDate={selectedMonth}
-					handleDateChange={handleMonthChange}
-					type={'MONTH'}
-				/>
+				<Calendar type={'MONTH'} />
 			</div>
 			<div className={styles.container}>
 				<div className={styles.title_container}>
@@ -90,11 +86,7 @@ const Table = () => {
 										colIndex !== 0 && (
 											<td key={colIndex} className={`${styles.column} ${styles.td}`}>
 												{colIndex === 1 ? (
-													<Calendar
-														selectedDate={value}
-														handleDateChange={event => handleDataChange(row, event, colIndex)}
-														type={'DAY'}
-													/>
+													<Calendar type={'DAY'} />
 												) : colIndex !== 4 ? (
 													<input
 														type="text"
