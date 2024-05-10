@@ -24,10 +24,6 @@ const Table = () => {
 	const dispatch = useDispatch();
 	// Expenses data that will populate the table
 	const data = useSelector(state => state.api.data);
-	// Tells whether the request is still running
-	const isLoading = useSelector(state => state.api.isLoading);
-	// Tells the error that occured
-	const error = useSelector(state => state.api.error);
 
 	// Gets the expense data, and will requestt again, when another dispatch is triggered
 	useEffect(() => {
