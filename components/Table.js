@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect } from 'react';
 import Calendar from './Calendar';
 import styles from './table.module.css';
-import useFetch from '@/middleware/useFetch';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchData, postData } from '@/lib/features/api/thunks';
 
 const Table = () => {
 	const columns = ['Date', 'Amount', 'Description', 'Category'];
@@ -20,43 +21,31 @@ const Table = () => {
 		Utilities: 'Utilities',
 	};
 
-	// Expenses data from db
-	let { data, error, isPending } = useFetch('http://localhost:3000/api/expenses', 'GET');
+	const dispatch = useDispatch();
+	// Expenses data that will populate the table
+	const data = useSelector(state => state.api.data);
+	// Tells whether the request is still running
+	const isLoading = useSelector(state => state.api.isLoading);
+	// Tells the error that occured
+	const error = useSelector(state => state.api.error);
 
-	// Filter date
-	const [selectedMonth, setSelectedMonth] = useState(new Date());
-
-	// This month is used while getting the finance data.
-	const handleMonthChange = date => {
-		setSelectedMonth(date);
-	};
+	// Gets the expense data, and will requestt again, when another dispatch is triggered
+	useEffect(() => {
+		dispatch(fetchData());
+	}, [dispatch]);
 
 	// Handles all data changes in the table
 	const handleDataChange = async (expense, event, index) => {
-		const abortController = new AbortController();
-		const options = {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			signal: abortController.signal,
-		};
 		const payload = {
 			[columns[index - 1].toLowerCase()]: index === 1 ? event : event.target.value,
 		};
 
-		// If the row has an id, we will be updating the record.
-		// If not, we will be adding a new record.
 		if (expense.id) {
 			payload['id'] = expense.id;
 			payload['type'] = 'UPDATE';
-			options['body'] = JSON.stringify(payload);
-			console.log({ payload, options });
-			await fetch('http://localhost:3000/api/expenses', options);
-		} else {
-			payload['type'] = 'ADD';
-			options['body'] = JSON.stringify(payload);
-			console.log({ payload, options });
-			await fetch('http://localhost:3000/api/expenses', options);
-		}
+		} else payload['type'] = 'ADD';
+
+		dispatch(postData(payload));
 	};
 
 	return (
@@ -86,11 +75,15 @@ const Table = () => {
 										colIndex !== 0 && (
 											<td key={colIndex} className={`${styles.column} ${styles.td}`}>
 												{colIndex === 1 ? (
-													<Calendar type={'DAY'} />
+													<Calendar
+														date={{ day: value }}
+														handleDayChange={event => handleDataChange(row, event, colIndex)}
+														type={'DAY'}
+													/>
 												) : colIndex !== 4 ? (
 													<input
 														type="text"
-														value={value}
+														value={value ? value : ''}
 														onChange={event => handleDataChange(row, event, colIndex)}
 														className={styles.input}
 													/>

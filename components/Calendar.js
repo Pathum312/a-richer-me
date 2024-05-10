@@ -1,20 +1,23 @@
+import { useRef } from 'react';
 import DatePicker from 'react-datepicker';
 import styles from './calendar.module.css';
 import 'react-datepicker/dist/react-datepicker.css';
-import { useRef } from 'react';
 import { setDate, initializeDate } from '@/lib/features/date/dateSlice';
 import { useAppSelector, useAppDispatch, useAppStore } from '@/lib/hooks';
 
-const Calendar = ({ selectedDate, handleDateChange, type }) => {
+const Calendar = ({ date, handleDayChange, type }) => {
+	// Call the redux store
 	const store = useAppStore();
 	const initialized = useRef(false);
+	// Initialize the date reducer
 	if (!initialized.current) {
-		store.dispatch(initializeDate());
+		store.dispatch(initializeDate(date));
 		initialized.current = true;
 	}
+	// This is used to update the state in a reducer
 	const dispatch = useAppDispatch();
+	// Called the month state from the date reducer
 	const month = useAppSelector(state => state.date.month);
-	const day = useAppSelector(state => state.date.day);
 
 	return (
 		<>
@@ -34,8 +37,8 @@ const Calendar = ({ selectedDate, handleDateChange, type }) => {
 			{/* Day Picker */}
 			{type === 'DAY' && (
 				<DatePicker
-					selected={day}
-					onChange={event => dispatch(setDate({ day: event.toString() }))}
+					selected={date.day}
+					onChange={handleDayChange}
 					dateFormat="dd/MM/yyyy"
 					className={styles.day}
 				/>
