@@ -31,15 +31,15 @@ const Table = () => {
 	}, [dispatch]);
 
 	// Handles all data changes in the table
-	const handleDataChange = async (expense, event, index) => {
+	const handleDataChange = async (expense, { date, amount, description, category }) => {
 		const payload = {
-			[columns[index - 1].toLowerCase()]: index === 1 ? event : event.target.value,
+			id: expense.id ?? false,
+			type: expense.id ? 'UPDATE' : 'ADD',
+			date: date ?? (expense.date !== '' ? expense.date : undefined),
+			amount: amount ?? (expense.amount !== '' ? expense.amount : null),
+			category: category ?? (expense.category !== '' ? expense.category : undefined),
+			description: description ?? (expense.description !== '' ? expense.description : null),
 		};
-
-		if (expense.id) {
-			payload['id'] = expense.id;
-			payload['type'] = 'UPDATE';
-		} else payload['type'] = 'ADD';
 
 		dispatch(postData(payload));
 	};
@@ -66,29 +66,29 @@ const Table = () => {
 					<tbody className={styles.tbody}>
 						{data.map(row => (
 							<tr key={row.id} className={styles.row}>
-								{Object.values(row).map(
-									(value, colIndex) =>
-										colIndex !== 0 && (
-											<td key={colIndex} className={`${styles.column} ${styles.td}`}>
-												{colIndex === 1 ? (
+								{Object.keys(row).map(
+									key =>
+										key !== 'id' && (
+											<td key={key} className={`${styles.column} ${styles.td}`}>
+												{key === 'date' ? (
 													<Calendar
-														date={{ day: value }}
-														handleDayChange={event => handleDataChange(row, event, colIndex)}
+														date={{ day: row[key] }}
+														handleDayChange={event => handleDataChange(row, { [key]: event })}
 														type={'DAY'}
 													/>
-												) : colIndex !== 4 ? (
+												) : key !== 'category' ? (
 													<input
 														type="text"
-														value={value ? value : ''}
-														onChange={event => handleDataChange(row, event, colIndex)}
+														value={row[key] ? row[key] : ''}
+														onChange={event => handleDataChange(row, { [key]: event.target.value })}
 														className={styles.input}
 													/>
 												) : (
 													<select
-														value={value}
-														onChange={event => handleDataChange(row, event, colIndex)}
+														value={row[key]}
+														onChange={event => handleDataChange(row, { [key]: event.target.value })}
 														className={`${styles.input} ${
-															value ? styles[categories[value].toLowerCase()] : ''
+															row[key] ? styles[categories[row[key]].toLowerCase()] : ''
 														}`}
 													>
 														<option value="">Select a category</option>
@@ -96,7 +96,9 @@ const Table = () => {
 															<option
 																key={index}
 																value={category}
-																className={value ? styles[categories[value].toLowerCase()] : ''}
+																className={
+																	row[key] ? styles[categories[row[key]].toLowerCase()] : ''
+																}
 															>
 																{category}
 															</option>
