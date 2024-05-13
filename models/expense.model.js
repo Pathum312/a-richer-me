@@ -17,6 +17,7 @@ class ExpenseModel {
 		// Amount sent in the req is string, we have to convert to int
 		// If statement is important otherwise the amount will also be updated as null
 		if (amount) amount = parseInt(amount);
+		if (typeof date === 'string') date = new Date(date);
 		// Common data for both adding and updating the records
 		let data = { date, amount, description, category };
 		switch (type) {

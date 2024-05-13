@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import Calendar from './Calendar';
 import styles from './table.module.css';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchData, postData } from '@/lib/features/api/thunks';
+import { initilizeData, postData } from '@/lib/features/api/thunks';
 
 const Table = () => {
 	const columns = ['Date', 'Amount', 'Description', 'Category'];
@@ -24,22 +24,38 @@ const Table = () => {
 	const dispatch = useDispatch();
 	// Expenses data that will populate the table
 	const data = useSelector(state => state.api.data);
+	const isLoading = useSelector(state => state.api.isLoading);
 
 	// Gets the expense data, and will requestt again, when another dispatch is triggered
 	useEffect(() => {
-		dispatch(fetchData());
-	}, [dispatch]);
+		dispatch(initilizeData());
+	}, []);
 
 	// Handles all data changes in the table
-	const handleDataChange = async (expense, { date, amount, description, category }) => {
+	const handleDataChange = async ({
+		id,
+		date,
+		amount,
+		description,
+		category,
+	}) => {
+		amount = parseInt(amount);
+		console.log({
+			id,
+			date,
+			amount,
+			description,
+			category,
+		});
 		const payload = {
-			id: expense.id ?? false,
-			type: expense.id ? 'UPDATE' : 'ADD',
-			date: date ?? (expense.date !== '' ? expense.date : undefined),
-			amount: amount ?? (expense.amount !== '' ? expense.amount : null),
-			category: category ?? (expense.category !== '' ? expense.category : undefined),
-			description: description ?? (expense.description !== '' ? expense.description : null),
+			id: id ?? false,
+			type: id ? 'UPDATE' : 'ADD',
+			amount: amount ?? null,
+			date: date ?? null,
+			category: category ?? undefined,
+			description: description ?? null,
 		};
+		console.log(payload);
 
 		dispatch(postData(payload));
 	};
@@ -47,6 +63,7 @@ const Table = () => {
 	return (
 		<>
 			<div className={styles.utils}>
+				{isLoading && <p className={styles.saving}>Saving...</p>}
 				<Calendar type={'MONTH'} />
 			</div>
 			<div className={styles.container}>
@@ -57,7 +74,10 @@ const Table = () => {
 					<thead className={styles.thead}>
 						<tr className={styles.row}>
 							{columns.map((column, index) => (
-								<th key={index} className={`${styles.column} ${styles.column_name}`}>
+								<th
+									key={index}
+									className={`${styles.column} ${styles.column_name}`}
+								>
 									{column}
 								</th>
 							))}
@@ -73,36 +93,56 @@ const Table = () => {
 												{key === 'date' ? (
 													<Calendar
 														date={{ day: row[key] }}
-														handleDayChange={event => handleDataChange(row, { [key]: event })}
+														handleDayChange={event =>
+															handleDataChange({ ...row, [key]: event })
+														}
 														type={'DAY'}
 													/>
 												) : key !== 'category' ? (
 													<input
 														type="text"
 														value={row[key] ? row[key] : ''}
-														onChange={event => handleDataChange(row, { [key]: event.target.value })}
+														onChange={event =>
+															handleDataChange({
+																...row,
+																[key]: event.target.value,
+															})
+														}
 														className={styles.input}
 													/>
 												) : (
 													<select
 														value={row[key]}
-														onChange={event => handleDataChange(row, { [key]: event.target.value })}
+														onChange={event =>
+															handleDataChange({
+																...row,
+																[key]: event.target.value,
+															})
+														}
 														className={`${styles.input} ${
-															row[key] ? styles[categories[row[key]].toLowerCase()] : ''
+															row[key]
+																? styles[categories[row[key]].toLowerCase()]
+																: ''
 														}`}
 													>
 														<option value="">Select a category</option>
-														{Object.values(categories).map((category, index) => (
-															<option
-																key={index}
-																value={category}
-																className={
-																	row[key] ? styles[categories[row[key]].toLowerCase()] : ''
-																}
-															>
-																{category}
-															</option>
-														))}
+														{Object.values(categories).map(
+															(category, index) => (
+																<option
+																	key={index}
+																	value={category}
+																	className={
+																		row[key]
+																			? styles[
+																					categories[row[key]].toLowerCase()
+																			  ]
+																			: ''
+																	}
+																>
+																	{category}
+																</option>
+															),
+														)}
 													</select>
 												)}
 											</td>
