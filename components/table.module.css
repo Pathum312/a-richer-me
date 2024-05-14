@@ -1,0 +1,132 @@
+.utils {
+	width: 50%;
+	padding: 1rem;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.saving {
+	display: flex;
+	padding: 0.5rem;
+	align-items: center;
+	justify-content: center;
+	color: var(--clr-text-default);
+	font-size: var(--fs-heading--2);
+}
+
+.container {
+	width: 50%;
+	padding: 1rem;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	border-radius: 0.25rem;
+	background-color: var(--clr-white-50);
+}
+
+.table {
+	width: 100%;
+}
+
+.title_container {
+	width: 100%;
+	padding: 1rem 0;
+}
+
+.title {
+	font-size: var(--fs-heading-1);
+	color: var(--clr-text-table-name);
+}
+
+.thead,
+.tbody {
+	width: 100%;
+	align-items: center;
+}
+
+.tbody {
+	margin-top: 1rem;
+}
+
+.row {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	width: 100%;
+	text-align: left;
+	padding-left: 0.5rem;
+}
+
+.column_name {
+	font-weight: 500;
+	font-size: var(--fs-heading--1);
+	color: var(--clr-text-column-name);
+	border-top: 2px solid var(--clr-text-default);
+}
+
+.td {
+	margin-bottom: 0.5rem;
+	border-bottom: 2px solid var(--clr-text-default);
+}
+
+.input {
+	width: 100%;
+	border: none;
+	color: var(--clr-text-default);
+	font-size: var(--fs-heading--1);
+	background-color: var(--clr-white-50);
+}
+
+/* Category colors */
+.travel {
+	color: var(--clr-pink-100);
+	background-color: var(--clr-pink-50);
+}
+
+.food {
+	color: var(--clr-green-100);
+	background-color: var(--clr-green-50);
+}
+
+.personal {
+	color: var(--clr-red-50);
+	background-color: var(--clr-red-100);
+}
+
+.health {
+	color: var(--clr-blue-100);
+	background-color: var(--clr-blue-50);
+}
+
+.home {
+	color: var(--clr-light-pink-100);
+	background-color: var(--clr-light-pink-50);
+}
+
+.pets {
+	color: var(--clr-light-blue-100);
+	background-color: var(--clr-light-blue-50);
+}
+
+.gifts {
+	color: var(--clr-sea-green-50);
+	background-color: var(--clr-sea-green-100);
+}
+
+.utilities {
+	color: var(--clr-orange-100);
+	background-color: var(--clr-orange-50);
+}
+
+.travel,
+.food,
+.personal,
+.health,
+.home,
+.pets,
+.gifts,
+.utilities {
+	padding: 0 0.5rem;
+}
