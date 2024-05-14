@@ -32,7 +32,7 @@ const Table = () => {
 
 	// Gets the expense data, and will requestt again, when another dispatch is triggered
 	useEffect(() => {
-		dispatch(initilizeData());
+		dispatch(initilizeData(month));
 	}, [month]);
 
 	// Change month filter
@@ -64,7 +64,7 @@ const Table = () => {
 			description: description ?? null,
 		};
 
-		dispatch(postData(payload));
+		dispatch(postData(payload, month));
 	};
 
 	return (
