@@ -40,22 +40,15 @@ const Table = () => {
 		category,
 	}) => {
 		amount = parseInt(amount);
-		console.log({
-			id,
-			date,
-			amount,
-			description,
-			category,
-		});
+		if (typeof date !== 'string' && date) date = date.toISOString();
 		const payload = {
 			id: id ?? false,
 			type: id ? 'UPDATE' : 'ADD',
 			amount: amount ?? null,
-			date: date ?? null,
+			date: date ? date : null,
 			category: category ?? undefined,
 			description: description ?? null,
 		};
-		console.log(payload);
 
 		dispatch(postData(payload));
 	};
