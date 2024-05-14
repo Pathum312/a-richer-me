@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import Calendar from './Calendar';
 import styles from './table.module.css';
 import { useSelector, useDispatch } from 'react-redux';
+import { setDate } from '@/lib/features/date/dateSlice';
 import { initilizeData, postData } from '@/lib/features/api/thunks';
 
 const Table = () => {
@@ -24,13 +25,21 @@ const Table = () => {
 	const dispatch = useDispatch();
 	// Expenses data that will populate the table
 	const data = useSelector(state => state.api.data);
+	// Get month filter used to filter expense table by month
+	const month = useSelector(state => state.date.month);
 	// Shows user whether the table data is being saved or not
 	const isLoading = useSelector(state => state.api.isLoading);
 
 	// Gets the expense data, and will requestt again, when another dispatch is triggered
 	useEffect(() => {
 		dispatch(initilizeData());
-	}, []);
+	}, [month]);
+
+	// Change month filter
+	const handleMonthChange = month => {
+		// Cannot set a state to a date object, so convert to string
+		dispatch(setDate({ month: month.toISOString() }));
+	};
 
 	// Handles all data changes in the table
 	const handleDataChange = async ({
@@ -40,8 +49,12 @@ const Table = () => {
 		description,
 		category,
 	}) => {
+		// Default amount is string, so convert to int
 		amount = parseInt(amount);
+		// If the date is not null and is not string, then convert to date object to string
 		if (typeof date !== 'string' && date) date = date.toISOString();
+
+		// POST API payload
 		const payload = {
 			id: id ?? false,
 			type: id ? 'UPDATE' : 'ADD',
@@ -58,7 +71,11 @@ const Table = () => {
 		<>
 			<div className={styles.utils}>
 				{isLoading && <p className={styles.saving}>Saving...</p>}
-				<Calendar type={'MONTH'} />
+				<Calendar
+					date={{ month: new Date(month) }}
+					handleDayChange={event => handleMonthChange(event)}
+					type={'MONTH'}
+				/>
 			</div>
 			<div className={styles.container}>
 				<div className={styles.title_container}>
