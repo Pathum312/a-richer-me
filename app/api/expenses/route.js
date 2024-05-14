@@ -5,7 +5,12 @@ const expenseService = new ExpenseModel({ prisma });
 
 // Get the expenses listing
 export const GET = async req => {
-	const data = await expenseService.get();
+	// In next we have to extract the query from the request url
+	const url = new URL(req.url, `http://${req.headers.host}`);
+	// Then from the array of search queries we have to get the specific one we want
+	const date = new URLSearchParams(url.searchParams).get('date');
+	// Cet expense listing by date or get all expenses unrestricted
+	const data = await expenseService.get({ date });
 	return NextResponse.json(
 		{
 			count: data.length,
