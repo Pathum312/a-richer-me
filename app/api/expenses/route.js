@@ -19,7 +19,6 @@ export const GET = async req => {
 export const POST = async req => {
 	try {
 		const { id, date, amount, description, category, type } = await req.json();
-		console.log({ body: { id, date, amount, description, category, type } });
 		try {
 			// Add, Update or Delete a record.
 			const res = await expenseService.update({
