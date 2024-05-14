@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import ExpenseModel from '@/models/expense.model';
 const expenseService = new ExpenseModel({ prisma });
 
+// Get the expenses listing
 export const GET = async req => {
 	const data = await expenseService.get();
 	return NextResponse.json(
@@ -14,11 +15,11 @@ export const GET = async req => {
 	);
 };
 
-// Test
+// Add / Update the expense record
 export const POST = async req => {
 	try {
 		const { id, date, amount, description, category, type } = await req.json();
-		console.log({ id, date, amount, description, category, type });
+		console.log({ body: { id, date, amount, description, category, type } });
 		try {
 			// Add, Update or Delete a record.
 			const res = await expenseService.update({

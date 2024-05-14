@@ -24,6 +24,7 @@ const Table = () => {
 	const dispatch = useDispatch();
 	// Expenses data that will populate the table
 	const data = useSelector(state => state.api.data);
+	// Shows user whether the table data is being saved or not
 	const isLoading = useSelector(state => state.api.isLoading);
 
 	// Gets the expense data, and will requestt again, when another dispatch is triggered
