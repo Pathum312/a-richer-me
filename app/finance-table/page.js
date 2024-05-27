@@ -1,5 +1,5 @@
 import styles from './page.module.css';
-import Table from '@/components/Table';
+import TableContainer from '@/components/Table_Container';
 
 export const metadata = {
 	title: 'ARM | Finance Table',
@@ -9,7 +9,7 @@ export const metadata = {
 const FinanceTable = () => {
 	return (
 		<div className={styles.container}>
-			<Table />
+			<TableContainer />
 		</div>
 	);
 };
