@@ -1,5 +1,4 @@
 .utils {
-	width: 50%;
 	padding: 1rem;
 	display: flex;
 	justify-content: flex-end;
@@ -15,7 +14,6 @@
 }
 
 .container {
-	width: 50%;
 	padding: 1rem;
 	display: flex;
 	align-items: center;
@@ -32,4 +30,27 @@
 .title {
 	font-size: var(--fs-heading-1);
 	color: var(--clr-text-table-name);
+}
+
+@media only screen and (max-width: 1000px) {
+	.utils {
+		width: 100%;
+		margin: 0 1rem;
+	}
+
+	.container {
+		width: 100%;
+		margin: 0 2rem;
+		overflow: scroll;
+	}
+}
+
+@media only screen and (min-width: 1000px) {
+	.utils {
+		width: 50%;
+	}
+
+	.container {
+		width: 50%;
+	}
 }
