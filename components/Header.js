@@ -7,7 +7,7 @@ import styles from './header.module.css';
 const Header = () => {
 	const tabs = [
 		{ name: 'Dashboard', href: '/home' },
-		{ name: 'Finance Table', href: '/home/finance-table' },
+		{ name: 'Finance Table', href: '/finance-table' },
 	];
 	const [activeTab, setActiveTab] = useState('Dashboard');
 
@@ -25,7 +25,9 @@ const Header = () => {
 					<Link
 						key={tab.name}
 						href={tab.href}
-						className={`${styles.tab} ${tab.name === activeTab ? styles.active : ''}`}
+						className={`${styles.tab} ${
+							tab.name === activeTab ? styles.active : ''
+						}`}
 						onClick={() => tabChange(tab.name)}
 					>
 						<p>{tab.name}</p>
