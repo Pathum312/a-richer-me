@@ -16,7 +16,6 @@
 .container {
 	padding: 1rem;
 	display: flex;
-	align-items: center;
 	flex-direction: column;
 	border-radius: 0.25rem;
 	background-color: var(--clr-white-50);
@@ -39,6 +38,7 @@
 
 	.container {
 		width: 100%;
+		overflow-x: scroll;
 	}
 }
 
@@ -49,5 +49,6 @@
 
 	.container {
 		width: 50%;
+		align-items: center;
 	}
 }
