@@ -1,0 +1,19 @@
+.container {
+	margin: 1rem;
+	padding: 1rem;
+	border-radius: 0.5rem;
+	background-color: var(--clr-light-pink-50);
+}
+
+.title {
+	font-size: var(--fs-heading--2);
+}
+
+.value {
+	font-size: var(--fs-heading--1);
+}
+
+.title,
+.value {
+	color: var(--clr-light-pink-100);
+}
