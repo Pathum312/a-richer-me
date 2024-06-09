@@ -5,18 +5,44 @@ const expenseService = new ExpenseModel({ prisma });
 
 export const GET = async req => {
 	const data = await expenseService.get({ date: null });
+	const currentMonth = new Date().getMonth();
+	const previousMonth = currentMonth - 1;
+	const nextMonth = currentMonth + 1;
+
 	let monthlyCosts = {};
-	let lifetimeCost = 0;
+	let lifetime = 0;
+	let previousMonthTotal = 0;
+	let currentMonthTotal = 0;
+
 	data.map(expense => {
 		const month = expense.date.getMonth();
 		monthlyCosts[getMonth(month)] = calculateMonthlyCosts(
 			monthlyCosts[getMonth(month)] || 0,
 			expense.amount,
 		);
-		lifetimeCost += expense.amount;
+
+		switch (expense.date.getMonth()) {
+			case currentMonth:
+				currentMonthTotal += expense.amount;
+				break;
+			case previousMonth:
+				previousMonthTotal += expense.amount;
+				break;
+			default:
+				break;
+		}
+
+		lifetime += expense.amount;
 	});
-	console.log({ monthlyCosts, lifetime: lifetimeCost });
-	return NextResponse.json({ data }, { status: 200 });
+
+	return NextResponse.json(
+		{
+			previousMonth: previousMonthTotal,
+			currentMonth: currentMonthTotal,
+			lifetime,
+		},
+		{ status: 200 },
+	);
 };
 
 // Calculate monthly cost
