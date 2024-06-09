@@ -5,12 +5,41 @@ const expenseService = new ExpenseModel({ prisma });
 
 export const GET = async req => {
 	const data = await expenseService.get({ date: null });
-	const test = data.map(expense => {
-		console.log(expense);
-		return { ['ok']: 'ok' };
+	let monthlyCosts = {};
+	let lifetimeCost = 0;
+	data.map(expense => {
+		const month = expense.date.getMonth();
+		monthlyCosts[getMonth(month)] = calculateMonthlyCosts(
+			monthlyCosts[getMonth(month)] || 0,
+			expense.amount,
+		);
+		lifetimeCost += expense.amount;
 	});
-	console.log(test);
+	console.log({ monthlyCosts, lifetime: lifetimeCost });
 	return NextResponse.json({ data }, { status: 200 });
+};
+
+// Calculate monthly cost
+const calculateMonthlyCosts = (monthlyCost, amount) => {
+	return monthlyCost + amount;
+};
+
+const getMonth = month => {
+	const months = [
+		'January',
+		'February',
+		'March',
+		'April',
+		'May',
+		'June',
+		'July',
+		'August',
+		'September',
+		'October',
+		'November',
+		'December',
+	];
+	return months[month - 1];
 };
 
 const calculateTrendFactor = (monthlyCost, averageMonthlyCost) => {
