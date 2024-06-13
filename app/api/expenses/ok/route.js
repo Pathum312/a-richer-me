@@ -7,7 +7,6 @@ export const GET = async req => {
 	const data = await expenseService.get({ date: null });
 	const currentMonth = new Date().getMonth();
 	const previousMonth = currentMonth - 1;
-	const nextMonth = currentMonth + 1;
 
 	let monthlyCosts = {};
 	let lifetime = 0;
@@ -16,7 +15,7 @@ export const GET = async req => {
 
 	data.map(expense => {
 		const month = expense.date.getMonth();
-		monthlyCosts[getMonth(month)] = calculateMonthlyCosts(
+		monthlyCosts[getMonth(month)] = calculateMonthlyCost(
 			monthlyCosts[getMonth(month)] || 0,
 			expense.amount,
 		);
@@ -39,6 +38,7 @@ export const GET = async req => {
 		{
 			previousMonth: previousMonthTotal,
 			currentMonth: currentMonthTotal,
+			nextMonth: Math.ceil(getEstimatedMonthlyCost(monthlyCosts)),
 			lifetime,
 		},
 		{ status: 200 },
@@ -46,7 +46,7 @@ export const GET = async req => {
 };
 
 // Calculate monthly cost
-const calculateMonthlyCosts = (monthlyCost, amount) => {
+const calculateMonthlyCost = (monthlyCost, amount) => {
 	return monthlyCost + amount;
 };
 
@@ -68,19 +68,48 @@ const getMonth = month => {
 	return months[month - 1];
 };
 
-const calculateTrendFactor = (monthlyCost, averageMonthlyCost) => {
-	return ((monthlyCost - averageMonthlyCost) / averageMonthlyCost) * 100;
+// Calculate the average monthly cost, after calculating the monthly cost
+const calculateAverageMonthlyCost = monthlyCosts => {
+	let numOfMonths = 0;
+	let monthlyCostTotal = 0;
+
+	Object.values(monthlyCosts).map((monthlyCost, index) => {
+		numOfMonths++;
+		monthlyCostTotal += monthlyCost;
+	});
+
+	return monthlyCostTotal / numOfMonths;
 };
 
-const calculateAverageTrendFactor = (totalTrendFactor, numOfMonths) => {
+// Calculate trend factor, which is basically the profit earned compared to the average monthly cost
+const calculateTrendFactor = (monthlyCost, averageMonthlyCost) => {
+	return (monthlyCost - averageMonthlyCost) / averageMonthlyCost;
+};
+
+// Calculate the average trend factor after getting the trend factor total
+const calculateAverageTrendFactor = (monthlyCosts, averageMonthlyCost) => {
+	let numOfMonths = 0;
+	let totalTrendFactor = 0;
+	Object.values(monthlyCosts).map((monthlyCost, index) => {
+		numOfMonths++;
+		totalTrendFactor += calculateTrendFactor(monthlyCost, averageMonthlyCost);
+	});
 	return totalTrendFactor / numOfMonths;
 };
 
+// Multiply the average monthly cost with the average trend factor to get the estimated monthly  cost for the next month
 const calculateEstimatedMonthlyCost = (
 	averageMonthlyCost,
 	averageTrendFactor,
 ) => {
-	return averageMonthlyCost * (1 + averageTrendFactor);
+	return averageMonthlyCost * (1 + averageTrendFactor); // $3000 * (1 + 0.042)%
 };
 
-const getEstimatedMonthlyCost = () => {};
+const getEstimatedMonthlyCost = monthlyCosts => {
+	const averageMonthlyCost = calculateAverageMonthlyCost(monthlyCosts);
+	const averageTrendFactor = calculateAverageTrendFactor(
+		monthlyCosts,
+		averageMonthlyCost,
+	);
+	return calculateEstimatedMonthlyCost(averageMonthlyCost, averageTrendFactor);
+};
