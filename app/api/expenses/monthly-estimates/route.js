@@ -38,7 +38,7 @@ export const GET = async req => {
 		{
 			previousMonth: previousMonthTotal,
 			currentMonth: currentMonthTotal,
-			nextMonth: Math.ceil(getEstimatedMonthlyCost(monthlyCosts)),
+			nextMonth: Math.ceil(getEstimatedMonthlyCost(monthlyCosts)) || 0,
 			lifetime,
 		},
 		{ status: 200 },

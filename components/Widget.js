@@ -4,7 +4,7 @@ const Widget = ({ title, value }) => {
 	return (
 		<div className={styles.container}>
 			<p className={styles.title}>{title}</p>
-			<p className={styles.value}>${value}</p>
+			<p className={styles.value}>{value}</p>
 		</div>
 	);
 };
