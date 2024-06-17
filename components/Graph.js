@@ -9,25 +9,29 @@ import {
 	BarChart,
 	ResponsiveContainer,
 } from 'recharts';
-import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { initilizeData } from '@/lib/features/api/thunks';
+import React from 'react';
 
 const CustomGraph = () => {
 	const data = [
-		{ amount: 100, description: 'uber', category: 'travel' },
-		{ amount: 15, description: 'pickme', category: 'travel' },
-		{ amount: 20, description: 'pedigree', category: 'personal' },
+		{ uber: 100, pickme: 15, name: 'travel' },
+		{ pedigree: 20, name: 'personal' },
 	];
 
 	return (
 		<ResponsiveContainer width={'100%'} height={'100%'}>
-			<BarChart width={48} height={48} data={data}>
-				<XAxis dataKey="category" stroke="#556376" />
+			<BarChart width={48} height={300} data={data} stacked>
+				<XAxis dataKey="name" stroke="#556376" />
 				<YAxis />
 				<Tooltip />
 				<Legend />
-				<Bar key="description" dataKey="amount" stackId="a" fill="#8884d8" />
+				<Bar dataKey="uber" stackId="category" fill="#bfe1f6" name="Uber" />
+				<Bar dataKey="pickme" stackId="category" fill="#ffcfc9" name="Pickme" />
+				<Bar
+					dataKey="pedigree"
+					stackId="category"
+					fill="#ff9393"
+					name="Pedigree"
+				/>
 			</BarChart>
 		</ResponsiveContainer>
 	);
