@@ -13,8 +13,13 @@ import React from 'react';
 
 const CustomGraph = () => {
 	const data = [
-		{ uber: 100, pickme: 15, name: 'travel' },
-		{ pedigree: 20, name: 'personal' },
+		{ uber: 200, pickme: 150, name: 'travel' },
+		{ uber_eats: 30, name: 'food' },
+		{ pedigree: 400, name: 'personal' },
+		{ pedigree: 120, name: 'school' },
+		{ pedigree: 450, name: 'home' },
+		{ pedigree: 200, name: 'pets' },
+		{ pedigree: 125, name: 'men' },
 	];
 
 	return (
@@ -23,9 +28,19 @@ const CustomGraph = () => {
 				<XAxis dataKey="name" stroke="#556376" />
 				<YAxis />
 				<Tooltip />
-				<Legend />
+				<Legend
+					verticalAlign="right"
+					layout="vertical"
+					wrapperStyle={{ right: 0 }}
+				/>
 				<Bar dataKey="uber" stackId="category" fill="#bfe1f6" name="Uber" />
 				<Bar dataKey="pickme" stackId="category" fill="#ffcfc9" name="Pickme" />
+				<Bar
+					dataKey="uber_eats"
+					stackId="category"
+					fill="#ffcfc9"
+					name="Uber Eats"
+				/>
 				<Bar
 					dataKey="pedigree"
 					stackId="category"
