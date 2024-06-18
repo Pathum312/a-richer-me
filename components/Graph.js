@@ -10,17 +10,25 @@ import {
 	ResponsiveContainer,
 } from 'recharts';
 import React from 'react';
+import { assignColor } from '@/middleware/utils';
 
 const CustomGraph = () => {
 	const data = [
-		{ uber: 200, pickme: 150, name: 'travel' },
-		{ uber_eats: 30, name: 'food' },
-		{ pedigree: 400, name: 'personal' },
-		{ pedigree: 120, name: 'school' },
-		{ pedigree: 450, name: 'home' },
-		{ pedigree: 200, name: 'pets' },
-		{ pedigree: 125, name: 'men' },
+		{ uber: 200, pickme: 150, name: 'Travel' },
+		{ uber_eats: 30, name: 'Food' },
+		{ world: 400, name: 'Personal' },
+		{ hentai: 120, name: 'School' },
+		{ manga: 450, name: 'Home' },
+		{ boys: 200, name: 'Pets' },
+		{ cats: 125, name: 'Men' },
 	];
+
+	const getSubCategories = data.map(expenses => {
+		const { name, ...rest } = expenses;
+		return Object.keys(rest);
+	});
+
+	const subCategories = getSubCategories.flat();
 
 	return (
 		<ResponsiveContainer width={'100%'} height={'100%'}>
@@ -33,20 +41,14 @@ const CustomGraph = () => {
 					layout="vertical"
 					wrapperStyle={{ right: 0 }}
 				/>
-				<Bar dataKey="uber" stackId="category" fill="#bfe1f6" name="Uber" />
-				<Bar dataKey="pickme" stackId="category" fill="#ffcfc9" name="Pickme" />
-				<Bar
-					dataKey="uber_eats"
-					stackId="category"
-					fill="#ffcfc9"
-					name="Uber Eats"
-				/>
-				<Bar
-					dataKey="pedigree"
-					stackId="category"
-					fill="#ff9393"
-					name="Pedigree"
-				/>
+				{subCategories.map(subCategory => (
+					<Bar
+						dataKey={subCategory}
+						stackId="category"
+						fill={`#${assignColor()}`}
+						name={subCategory.replace('_', ' ').toUpperCase()}
+					/>
+				))}
 			</BarChart>
 		</ResponsiveContainer>
 	);
