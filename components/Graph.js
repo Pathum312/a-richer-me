@@ -1,27 +1,20 @@
 'use client';
 
-import {
-	Bar,
-	XAxis,
-	YAxis,
-	Legend,
-	Tooltip,
-	BarChart,
-	ResponsiveContainer,
-} from 'recharts';
-import React from 'react';
+import { Bar, XAxis, YAxis, Legend, Tooltip, BarChart, ResponsiveContainer } from 'recharts';
+import React, { useEffect } from 'react';
 import { assignColor } from '@/middleware/utils';
+import { useSelector, useDispatch } from 'react-redux';
+import { initilizeData } from '@/lib/features/graph-api/thunks';
 
 const CustomGraph = () => {
-	const data = [
-		{ uber: 200, pickme: 150, name: 'Travel' },
-		{ uber_eats: 30, name: 'Food' },
-		{ world: 400, name: 'Personal' },
-		{ hentai: 120, name: 'School' },
-		{ manga: 450, name: 'Home' },
-		{ boys: 200, name: 'Pets' },
-		{ cats: 125, name: 'Men' },
-	];
+	const dispatch = useDispatch();
+	// Expenses data that will populate the widgets
+	const data = useSelector(state => state.graph.data);
+
+	// Gets the monthly expenses for the widgets, is triggered every render of the page
+	useEffect(() => {
+		dispatch(initilizeData());
+	}, []);
 
 	const getSubCategories = data.map(expenses => {
 		const { name, ...rest } = expenses;
@@ -36,11 +29,7 @@ const CustomGraph = () => {
 				<XAxis dataKey="name" stroke="#556376" />
 				<YAxis />
 				<Tooltip />
-				<Legend
-					verticalAlign="right"
-					layout="vertical"
-					wrapperStyle={{ right: 0 }}
-				/>
+				<Legend verticalAlign="right" layout="vertical" wrapperStyle={{ right: 0 }} />
 				{subCategories.map(subCategory => (
 					<Bar
 						dataKey={subCategory}
