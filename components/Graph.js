@@ -2,6 +2,7 @@
 
 import React from 'react';
 import CustomBarChart from './Bar_Chart';
+import CustomPieChart from './Pie_Chart';
 
 const CustomGraph = ({ type }) => {
 	return (
@@ -9,7 +10,7 @@ const CustomGraph = ({ type }) => {
 			{type === 'bar' ? (
 				<CustomBarChart />
 			) : type === 'pie' ? (
-				<p>Pie Chart</p>
+				<CustomPieChart />
 			) : (
 				<p>Nothing to show here...</p>
 			)}

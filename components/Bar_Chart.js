@@ -1,8 +1,8 @@
-import { Bar, XAxis, YAxis, Legend, Tooltip, BarChart, ResponsiveContainer } from 'recharts';
 import React, { useEffect } from 'react';
 import { assignColor } from '@/middleware/utils';
 import { useSelector, useDispatch } from 'react-redux';
 import { initilizeData } from '@/lib/features/graph-api/thunks';
+import { Bar, XAxis, YAxis, Legend, Tooltip, BarChart, ResponsiveContainer } from 'recharts';
 
 const CustomBarChart = () => {
 	const dispatch = useDispatch();
@@ -27,7 +27,7 @@ const CustomBarChart = () => {
 				<XAxis dataKey="name" stroke="#556376" />
 				<YAxis />
 				<Tooltip />
-				<Legend verticalAlign="right" layout="vertical" wrapperStyle={{ right: 0 }} />
+				<Legend />
 				{subCategories.map(subCategory => (
 					<Bar
 						dataKey={subCategory}
