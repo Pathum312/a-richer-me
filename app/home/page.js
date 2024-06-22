@@ -1,4 +1,7 @@
 import styles from './page.module.css';
+import WidgetList from '@/components/Widget_List';
+import CustomGraph from '@/components/Graph';
+import GraphContainer from '@/components/Graph_Container';
 
 export const metadata = {
 	title: 'ARM | Dashboard',
@@ -8,8 +11,15 @@ export const metadata = {
 const Home = () => {
 	return (
 		<div className={styles.container}>
-			<h1 className={styles.title}>Dashboard Page</h1>
-			<p className={styles.description}>The dashboard, shows the stats and graphs for the user</p>
+			<div className={styles.widgets}>
+				<WidgetList />
+			</div>
+			<GraphContainer>
+				<CustomGraph type={'bar'} />
+			</GraphContainer>
+			<GraphContainer>
+				<CustomGraph type={'pie'} />
+			</GraphContainer>
 		</div>
 	);
 };
